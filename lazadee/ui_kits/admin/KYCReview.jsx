@@ -26,15 +26,17 @@
     const status = (k) => decided[k.id] || k.status;
 
     return (
-      <div style={{ display: 'grid', gridTemplateColumns: '380px 1fr', gap: 20, alignItems: 'start' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '440px 1fr', gap: 20, alignItems: 'start' }}>
         {/* queue */}
         <div style={{ background: '#fff', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--shadow-sm)', overflow: 'hidden' }}>
-          <div style={{ padding: '4px 16px 0' }}>
+          <div style={{ padding: '4px 14px 0' }}>
+            <div style={{ display: 'flex', whiteSpace: 'nowrap' }}>
             <Tabs value={tab} onChange={setTab} size="sm" items={[
               { id: 'PENDING', label: 'Chờ duyệt', badge: KYC.filter((k) => status(k) === 'PENDING').length },
               { id: 'SUPPLEMENT_REQUESTED', label: 'Chờ bổ sung', badge: Object.values(decided).filter((s) => s === 'SUPPLEMENT_REQUESTED').length || undefined },
               { id: 'VERIFIED', label: 'Đã duyệt' }, { id: 'REJECTED', label: 'Từ chối' }, { id: 'ALL', label: 'Tất cả' },
             ]} />
+            </div>
           </div>
           <div>
             {list.map((k) => {
@@ -123,7 +125,7 @@
           )}
         </div>
 
-        <Modal open={supplement} onClose={() => setSupplement(false)} title={<span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}><Icon name="file-text" size={18} style={{ color: 'var(--amber-600, #C77700)' }} />Yêu cầu bổ sung — {sel.shop}</span>}
+        <Modal open={supplement} onClose={() => setSupplement(false)} width={560} title={<span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}><Icon name="file-text" size={18} style={{ color: 'var(--amber-600, #C77700)' }} />Yêu cầu bổ sung — {sel.shop}</span>}
           footer={<>
             <Button variant="ghost" onClick={() => setSupplement(false)}>Huỷ</Button>
             <Button iconLeft="send" onClick={() => { if (suppDocs.length === 0) { setSuppErr(true); return; } setDecided((d) => ({ ...d, [sel.id]: 'SUPPLEMENT_REQUESTED' })); setSupplement(false); }}>Gửi yêu cầu bổ sung</Button>
