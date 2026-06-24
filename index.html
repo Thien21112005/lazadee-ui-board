@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lazadee — Bảng màn hình (Figma)</title>
+<link rel="stylesheet" href="lazadee/styles.css">
+<style>
+  html, body { margin: 0; height: 100%; background: #f0eee9; }
+  #app { height: 100vh; }
+  @keyframes lz-spin { to { transform: rotate(360deg); } }
+  .lz-spin { animation: lz-spin 0.8s linear infinite; }
+</style>
+<script>
+  /* Land users on the content, not in empty space. A versioned seed force-
+     resets the saved pan/zoom once (recovers anyone stranded by an old
+     zoomed-out position), then the canvas persists their own movements. */
+  (function () {
+    var SEED = { x: 80, y: 40, scale: 0.13 };
+    var SEED_VER = 'lz-board-seed-v3';
+    var vpKey = 'dc-viewport:' + location.pathname;
+    try {
+      if (localStorage.getItem(SEED_VER) !== '1') {
+        localStorage.setItem(vpKey, JSON.stringify(SEED));
+        localStorage.setItem(SEED_VER, '1');
+      }
+    } catch (e) {}
+    window.__LZ_RESET_VIEW = function () {
+      try { localStorage.setItem(vpKey, JSON.stringify(SEED)); } catch (e) {}
+      location.reload();
+    };
+  })();
+</script>
+</head>
+<body>
+<div id="app"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="lazadee/_ds_bundle.js"></script>
+<script type="text/babel" src="lazadee/design-canvas.jsx"></script>
+<script type="text/babel" src="lazadee/board.jsx"></script>
+</body>
+</html>
